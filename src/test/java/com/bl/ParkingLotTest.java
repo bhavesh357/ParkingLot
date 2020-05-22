@@ -19,4 +19,13 @@ public class ParkingLotTest {
         int token = parkingLot.park(car);
         Assert.assertEquals(car,parkingLot.unpark(token));
     }
+
+    @Test
+    public void givenLimitCars_WhenFull_ShoulReturnTrue() {
+        ParkingLot parkingLot = new ParkingLot(3);
+        parkingLot.park(new Car());
+        parkingLot.park(new Car());
+        parkingLot.park(new Car());
+        Assert.assertTrue(parkingLot.isFull());
+    }
 }

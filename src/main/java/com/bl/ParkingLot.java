@@ -8,16 +8,19 @@ import java.util.HashMap;
 public class ParkingLot {
     private final int capacity;
     private Car[] cars;
+    private int stored;
 
     public ParkingLot(int capacity) {
         this.cars = new Car[capacity];
         this.capacity = capacity;
+        this.stored=0;
     }
 
     public int park(Car car) {
         for(int i=0;i<this.capacity;i++){
             if(cars[i]==null){
                 cars[i]=car;
+                stored++;
                 return i+1;
             }
         }
@@ -29,6 +32,6 @@ public class ParkingLot {
     }
 
     public boolean isFull() {
-        return false;
+        return capacity==stored;
     }
 }
