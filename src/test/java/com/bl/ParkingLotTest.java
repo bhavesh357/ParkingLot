@@ -54,4 +54,15 @@ public class ParkingLotTest {
         when(aiportSecurity.redirectStaff(true)).thenReturn(true);
         Assert.assertTrue(parkingLot.redirectStaff(aiportSecurity));
     }
+
+    @Test
+    public void givenLimitCars_WhenNotFull_ShoulReturnFalse() {
+        ParkingLot parkingLot = new ParkingLot(3);
+        int token1 = parkingLot.park(new Car());
+        parkingLot.park(new Car());
+        parkingLot.park(new Car());
+        parkingLot.isFull();
+        parkingLot.unpark(token1);
+        Assert.assertTrue(parkingLot.isSignUp());
+    }
 }

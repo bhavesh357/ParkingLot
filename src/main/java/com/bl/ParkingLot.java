@@ -31,7 +31,9 @@ public class ParkingLot {
     }
 
     public Car unpark(int token) {
-        return cars[token-1];
+        Car car = cars[token - 1];
+        cars[token-1]=null;
+        return car;
     }
 
     public void isFull() {
