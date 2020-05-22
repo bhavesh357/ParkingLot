@@ -6,17 +6,17 @@ import org.junit.Test;
 
 public class ParkingLotTest {
     @Test
-    public void givenObject_WhenParked_ShouldReturnTrue() {
-        ParkingLot parkingLot = new ParkingLot();
-        boolean park = parkingLot.park(new Car());
-        Assert.assertTrue(park);
+    public void givenObject_WhenParked_ShouldReturnToken() {
+        ParkingLot parkingLot = new ParkingLot(1);
+        int token = parkingLot.park(new Car());
+        Assert.assertEquals(1,token);
     }
 
     @Test
     public void givenCar_WhenUnparked_ShouldReturnCar() {
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = new ParkingLot(1);
         Car car = new Car();
-        parkingLot.park(car);
-        Assert.assertEquals(car,parkingLot.unpark());
+        int token = parkingLot.park(car);
+        Assert.assertEquals(car,parkingLot.unpark(token));
     }
 }
