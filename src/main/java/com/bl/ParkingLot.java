@@ -10,11 +10,13 @@ public class ParkingLot {
     private final int capacity;
     private Car[] cars;
     private int stored;
+    private boolean fullSign;
 
     public ParkingLot(int capacity) {
         this.cars = new Car[capacity];
         this.capacity = capacity;
         this.stored=0;
+        fullSign = false;
     }
 
     public int park(Car car) {
@@ -32,11 +34,18 @@ public class ParkingLot {
         return cars[token-1];
     }
 
-    public boolean isFull() {
-        return capacity==stored;
+    public void isFull() {
+        if (capacity==stored){
+            this.fullSign = true;
+        }
     }
 
     public boolean redirectStaff(AiportSecurity aiportSecurity) {
-        return aiportSecurity.redirectStaff(this.isFull());
+        isFull();
+        return aiportSecurity.redirectStaff(fullSign);
+    }
+
+    public boolean isSignUp() {
+        return fullSign;
     }
 }

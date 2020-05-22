@@ -40,7 +40,8 @@ public class ParkingLotTest {
         parkingLot.park(new Car());
         parkingLot.park(new Car());
         parkingLot.park(new Car());
-        Assert.assertTrue(parkingLot.isFull());
+        parkingLot.isFull();
+        Assert.assertTrue(parkingLot.isSignUp());
     }
 
     @Test
