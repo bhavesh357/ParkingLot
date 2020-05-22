@@ -1,9 +1,18 @@
 package com.bl;
 
+import com.bl.model.Car;
+
 public class ParkingLot {
 
 
-    public boolean park(Object o) {
+    private Car car;
+
+    public boolean park(Car car) {
+        this.car = car;
         return true;
+    }
+
+    public Car unpark() {
+        return car;
     }
 }
