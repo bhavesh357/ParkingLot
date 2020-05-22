@@ -1,5 +1,6 @@
 package com.bl;
 
+import com.bl.model.AiportSecurity;
 import com.bl.model.Car;
 
 import java.util.ArrayList;
@@ -33,5 +34,9 @@ public class ParkingLot {
 
     public boolean isFull() {
         return capacity==stored;
+    }
+
+    public boolean redirectStaff(AiportSecurity aiportSecurity) {
+        return aiportSecurity.redirectStaff(this.isFull());
     }
 }
