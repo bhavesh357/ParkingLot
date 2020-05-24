@@ -115,6 +115,20 @@ public class ParkingLotTest {
     }
 
     @Test
+    public void givenCar_WhengivenDifferentCarToGetLot_ShouldParkCar() {
+        ParkingManager parking = new ParkingManager(1);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parking.addObserver(owner);
+        Car car = new Car();
+        parking.park(car);
+        try {
+            parking.getParkedLot(new Car());
+        }catch (ParkingLotException e){
+            Assert.assertEquals(ParkingLotException.ErrorType.CAR_NOT_PARKED,e.errorType);
+        }
+    }
+
+    @Test
     public void givenCar_WhenFull_ShouldReturnException() {
         ParkingManager parking = new ParkingManager(1);
         ParkingLotOwner owner = new ParkingLotOwner();
@@ -191,8 +205,28 @@ public class ParkingLotTest {
         parkingManager.park(car);
         parkingManager.park(new Car());
         parkingManager.park(new Car());
+        Car car4 = new Car();
+        parkingManager.park(car4);
+        parkingManager.park(new Car());
+        parkingManager.park(new Car());
+        Assert.assertEquals(parkingManager.getParkedLot(car),parkingManager.getParkedLot(car4));
+    }
+
+    @Test
+    public void givenCars_WheHandicappedDriver_ShouldParkCarsEvenly() {
+        ParkingManager parkingManager = new ParkingManager(3);
+        parkingManager.setCapacity(3);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parkingManager.addObserver(owner);
+        Car car = new Car();
+        parkingManager.park(car);
         parkingManager.park(new Car());
         parkingManager.park(new Car());
         parkingManager.park(new Car());
+        parkingManager.park(new Car());
+        Car handicappedCar = new Car();
+        handicappedCar.setHandicappedDriver();
+        parkingManager.park(handicappedCar);
+        Assert.assertEquals(parkingManager.getParkedLot(car),parkingManager.getParkedLot(handicappedCar));
     }
 }

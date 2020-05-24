@@ -5,7 +5,6 @@ import com.bl.exception.ParkingLotException;
 import com.bl.model.Car;
 import com.bl.model.ParkingAttendant;
 import com.bl.model.ParkingLotObeserver;
-import com.bl.model.ParkingLotOwner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,12 @@ public class ParkingManager {
     }
 
     public void park(Car car) {
-        ParkingLot preferredLot = getPreferredLot();
+        ParkingLot preferredLot;
+        if(car.isHandicapped){
+            preferredLot=lots.get(0);
+        }else{
+            preferredLot = getPreferredLot();
+        }
         attendant.park(preferredLot,car);
         isFull();
     }
@@ -40,8 +44,9 @@ public class ParkingManager {
         int max= closestLot.cars.size();
         boolean flag=true;
         for(int i=1;i<lots.size();i++){
-            if(flag && lots.get(i).cars.size()!=max){
-                flag =false;
+            if (lots.get(i).cars.size() != max) {
+                flag = false;
+                break;
             }
         }
         if(flag && !closestLot.isFull()){
@@ -88,5 +93,14 @@ public class ParkingManager {
         for(ParkingLot p: lots){
             p.setCapacity(capacity);
         }
+    }
+
+    public ParkingLot getParkedLot(Car car) {
+        for(ParkingLot p: lots){
+            if(p.cars.contains(car)){
+                return p;
+            }
+        }
+        throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
     }
 }
