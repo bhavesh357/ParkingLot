@@ -5,14 +5,7 @@ import com.bl.model.AirportSecurity;
 import com.bl.model.Car;
 import com.bl.model.ParkingLotOwner;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class ParkingLotTest {
 
@@ -101,8 +94,8 @@ public class ParkingLotTest {
         parkingLot.park(car);
         parkingLot.park(new Car());
         parkingLot.park(new Car());
-        Assert.assertEquals(true,owner.isCapacityFull());
+        Assert.assertTrue(owner.isCapacityFull());
         parkingLot.unPark(car);
-        Assert.assertEquals(false,owner.isCapacityFull());
+        Assert.assertFalse(owner.isCapacityFull());
     }
 }
