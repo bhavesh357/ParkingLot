@@ -1,13 +1,17 @@
 package com.bl.exception;
 
 public class ParkingLotException extends RuntimeException {
-    private final ErrorType errorType;
+    public final ErrorType errorType;
 
+    /**
+     * constructor for exception
+     * @param errorType //type of error
+     */
     public ParkingLotException(ErrorType errorType) {
         this.errorType= errorType;
     }
 
     public enum ErrorType {
-        CAR_ALREADYPARKED,LOT_FULL, CAR_NOT_PARKED;
+        CAR_ALREADY_PARKED,LOT_FULL, CAR_NOT_PARKED
     }
 }

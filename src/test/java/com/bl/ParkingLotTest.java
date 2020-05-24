@@ -1,7 +1,9 @@
 package com.bl;
 
-import com.bl.model.AiportSecurity;
+import com.bl.exception.ParkingLotException;
+import com.bl.model.AirportSecurity;
 import com.bl.model.Car;
+import com.bl.model.ParkingLotOwner;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,20 +15,27 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ParkingLotTest {
-    @Mock
-    AiportSecurity aiportSecurity;
-
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Test
-    public void givenObject_WhenParked_ShouldReturnToken() {
+    public void givenObject_WhenParked_ShouldReturnVoid() {
         ParkingLot parkingLot = new ParkingLot(1);
         parkingLot.park(new Car());
     }
 
     @Test
-    public void givenCar_WhenUnparked_ShouldReturnCar() {
+    public void givenObject_WhenSameCarParked_ShouldReturnException() {
+        try {
+            ParkingLot parkingLot = new ParkingLot(1);
+            Car car = new Car();
+            parkingLot.park(car);
+            parkingLot.park(car);
+        }catch (ParkingLotException e){
+            Assert.assertEquals(ParkingLotException.ErrorType.CAR_ALREADY_PARKED,e.errorType);
+        }
+    }
+
+    @Test
+    public void givenCar_WhenUnParked_ShouldReturnCar() {
         ParkingLot parkingLot = new ParkingLot(1);
         Car car = new Car();
         parkingLot.park(car);
@@ -34,35 +43,66 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void givenLimitCars_WhenFull_ShoulReturnTrue() {
-        ParkingLot parkingLot = new ParkingLot(3);
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
-        parkingLot.isFull();
-        Assert.assertTrue(parkingLot.isSignUp());
+    public void givenCar_WhenUnParkedDifferentCar_ShouldReturnException() {
+        ParkingLot parkingLot = new ParkingLot(1);
+        Car car = new Car();
+        parkingLot.park(car);
+        try{
+            parkingLot.unPark(new Car());
+        }catch (ParkingLotException e){
+            Assert.assertEquals(ParkingLotException.ErrorType.CAR_NOT_PARKED,e.errorType);
+        }
     }
+
+    @Test
+    public void givenLimitCars_WhenFull_ShouldReturnTrue() {
+        ParkingLot parkingLot = new ParkingLot(3);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parkingLot.addObserver(owner);
+        parkingLot.park(new Car());
+        parkingLot.park(new Car());
+        parkingLot.park(new Car());
+        Assert.assertTrue(owner.isCapacityFull());
+    }
+
+    @Test
+    public void givenMoreThanLimitCars_WhenFull_ShouldReturnException() {
+        ParkingLot parkingLot = new ParkingLot(3);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parkingLot.addObserver(owner);
+        parkingLot.park(new Car());
+        parkingLot.park(new Car());
+        parkingLot.park(new Car());
+        try{
+            parkingLot.park(new Car());
+        }catch (ParkingLotException e){
+            Assert.assertEquals(ParkingLotException.ErrorType.LOT_FULL,e.errorType);
+        }
+    }
+
 
     @Test
     public void givenLimitCars_WhenRedirectSecurity_ShouldReturnFalse() {
         ParkingLot parkingLot = new ParkingLot(3);
+        AirportSecurity airportSecurity = new AirportSecurity();
+        parkingLot.addObserver(airportSecurity);
         parkingLot.park(new Car());
         parkingLot.park(new Car());
         parkingLot.park(new Car());
-        aiportSecurity = mock(AiportSecurity.class);
-        when(aiportSecurity.redirectStaff(true)).thenReturn(true);
-        Assert.assertTrue(parkingLot.redirectStaff(aiportSecurity));
+        Assert.assertTrue(airportSecurity.isCapacityFull());
     }
 
     @Test
     public void givenLimitCars_WhenNotFull_ShouldReturnFalse() {
         ParkingLot parkingLot = new ParkingLot(3);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parkingLot.addObserver(owner);
         Car car = new Car();
         parkingLot.park(car);
         parkingLot.park(new Car());
         parkingLot.park(new Car());
-        parkingLot.isFull();
+        Assert.assertEquals(true,owner.isCapacityFull());
         parkingLot.unPark(car);
-        Assert.assertTrue(parkingLot.isSignUp());
+        Assert.assertEquals(false,owner.isCapacityFull());
     }
 }
