@@ -16,7 +16,7 @@ public class ParkingManager {
     public ParkingAttendant attendant;
 
     public ParkingManager(int noOfLots) {
-        lots = new ArrayList<ParkingLot>();
+        lots = new ArrayList<>();
         for(int i=0; i<noOfLots;i++ ){
             lots.add(new ParkingLot(1));
         }
@@ -32,6 +32,7 @@ public class ParkingManager {
     public void park(Car car) {
         ParkingLot preferredLot = getPreferredLot();
         attendant.park(preferredLot,car);
+        isFull();
     }
 
     private ParkingLot getPreferredLot() {
@@ -46,9 +47,35 @@ public class ParkingManager {
     public Car unPark(Car car) {
         for(ParkingLot p: lots){
             if(p.cars.contains(car)){
-                return p.unPark(car);
+                Car car1 = p.unPark(car);
+                isFull();
+                return car1;
             }
         }
         throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
+    }
+
+    public void isFull() {
+        boolean allLotsFull = true;
+        for(ParkingLot p: lots){
+            if(!p.isFull()){
+                allLotsFull=false;
+            }
+        }
+        for(ParkingLot p: lots) {
+            for (ParkingLotObeserver o : p.observers) {
+                if (allLotsFull) {
+                    o.capacityIsFull();
+                } else {
+                    o.capacityIsAvailable();
+                }
+            }
+        }
+    }
+
+    public void setCapacity(int capacity) {
+        for(ParkingLot p: lots){
+            p.setCapacity(capacity);
+        }
     }
 }

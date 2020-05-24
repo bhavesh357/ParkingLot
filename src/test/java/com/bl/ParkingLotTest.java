@@ -49,12 +49,13 @@ public class ParkingLotTest {
 
     @Test
     public void givenLimitCars_WhenFull_ShouldReturnTrue() {
-        ParkingLot parkingLot = new ParkingLot(3);
+        ParkingManager parkingManager = new ParkingManager(1);
+        parkingManager.setCapacity(3);
         ParkingLotOwner owner = new ParkingLotOwner();
-        parkingLot.addObserver(owner);
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
+        parkingManager.addObserver(owner);
+        parkingManager.park(new Car());
+        parkingManager.park(new Car());
+        parkingManager.park(new Car());
         Assert.assertTrue(owner.isCapacityFull());
     }
 
@@ -75,27 +76,29 @@ public class ParkingLotTest {
 
 
     @Test
-    public void givenLimitCars_WhenRedirectSecurity_ShouldReturnFalse() {
-        ParkingLot parkingLot = new ParkingLot(3);
+    public void givenLimitCars_WhenRedirectSecurity_ShouldReturnTrue() {
+        ParkingManager parkingManager = new ParkingManager(1);
+        parkingManager.setCapacity(3);
         AirportSecurity airportSecurity = new AirportSecurity();
-        parkingLot.addObserver(airportSecurity);
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
+        parkingManager.addObserver(airportSecurity);
+        parkingManager.park(new Car());
+        parkingManager.park(new Car());
+        parkingManager.park(new Car());
         Assert.assertTrue(airportSecurity.isCapacityFull());
     }
 
     @Test
     public void givenLimitCars_WhenNotFull_ShouldReturnFalse() {
-        ParkingLot parkingLot = new ParkingLot(3);
+        ParkingManager parkingManager = new ParkingManager(1);
+        parkingManager.setCapacity(3);
         ParkingLotOwner owner = new ParkingLotOwner();
-        parkingLot.addObserver(owner);
+        parkingManager.addObserver(owner);
         Car car = new Car();
-        parkingLot.park(car);
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
+        parkingManager.park(car);
+        parkingManager.park(new Car());
+        parkingManager.park(new Car());
         Assert.assertTrue(owner.isCapacityFull());
-        parkingLot.unPark(car);
+        parkingManager.unPark(car);
         Assert.assertFalse(owner.isCapacityFull());
     }
 
@@ -147,5 +150,19 @@ public class ParkingLotTest {
         }catch (ParkingLotException e){
             Assert.assertEquals(ParkingLotException.ErrorType.CAR_NOT_PARKED,e.errorType);
         }
+    }
+
+    @Test
+    public void givenLimitCar_WhenFull_ShouldReturnTrue() {
+        ParkingManager parking = new ParkingManager(2);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parking.addObserver(owner);
+        AirportSecurity airportSecurity = new AirportSecurity();
+        parking.addObserver(airportSecurity);
+        Car car = new Car();
+        parking.park(car);
+        parking.park(new Car());
+        Assert.assertTrue(owner.isCapacityFull());
+        Assert.assertTrue(airportSecurity.isCapacityFull());
     }
 }
