@@ -42,4 +42,13 @@ public class ParkingManager {
         }
         throw new ParkingLotException(ParkingLotException.ErrorType.ALL_LOTS_FULL);
     }
+
+    public Car unPark(Car car) {
+        for(ParkingLot p: lots){
+            if(p.cars.contains(car)){
+                return p.unPark(car);
+            }
+        }
+        throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
+    }
 }

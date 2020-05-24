@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ParkingLot {
     private final int capacity; //total limit of lot
-    private final List<Car> cars; // list of stored cars
+    public final List<Car> cars; // list of stored cars
     private boolean fullSign; //sign that says lot full
     private final List<ParkingLotObeserver> observers; //owner or security who need to know if lot is full
 

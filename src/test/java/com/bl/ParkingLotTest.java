@@ -121,4 +121,31 @@ public class ParkingLotTest {
             Assert.assertEquals(ParkingLotException.ErrorType.ALL_LOTS_FULL,e.errorType);
         }
     }
+
+    @Test
+    public void givenCar_WhenUnPark_ShouldReturnCar() {
+        ParkingManager parking = new ParkingManager(2);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parking.addObserver(owner);
+        Car car = new Car();
+        parking.park(car);
+        parking.park(new Car());
+        Car car1 = parking.unPark(car);
+        Assert.assertEquals(car,car1);
+    }
+
+    @Test
+    public void givenCar_WhenUnParkDifferentCar_ShouldReturnException() {
+        ParkingManager parking = new ParkingManager(2);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parking.addObserver(owner);
+        Car car = new Car();
+        parking.park(car);
+        parking.park(new Car());
+        try {
+            Car car1 = parking.unPark(new Car());
+        }catch (ParkingLotException e){
+            Assert.assertEquals(ParkingLotException.ErrorType.CAR_NOT_PARKED,e.errorType);
+        }
+    }
 }
