@@ -5,6 +5,8 @@ import com.bl.model.Car;
 import com.bl.model.ParkingLotObeserver;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /*******************************************************************
@@ -48,6 +50,8 @@ public class ParkingLot {
         if(isFull()){
             throw new ParkingLotException(ParkingLotException.ErrorType.LOT_FULL);
         }
+        Date time = Calendar.getInstance().getTime();
+        car.setParkedTime(time);
         cars.add(car);
         isFull();
     }

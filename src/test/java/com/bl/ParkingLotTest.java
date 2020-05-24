@@ -7,6 +7,9 @@ import com.bl.model.ParkingLotOwner;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class ParkingLotTest {
 
     @Test
@@ -164,5 +167,17 @@ public class ParkingLotTest {
         parking.park(new Car());
         Assert.assertTrue(owner.isCapacityFull());
         Assert.assertTrue(airportSecurity.isCapacityFull());
+    }
+
+    @Test
+    public void givenCar_WhenParkedForSomeTime_ShouldReturnTime() throws InterruptedException {
+        ParkingManager parking = new ParkingManager(1);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parking.addObserver(owner);
+        Car car = new Car();
+        parking.park(car);
+        Date time = Calendar.getInstance().getTime();
+        Car car1 = parking.unPark(car);
+        Assert.assertEquals(time,car.getParkedTime());
     }
 }
