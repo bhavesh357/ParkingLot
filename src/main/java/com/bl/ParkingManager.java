@@ -36,8 +36,19 @@ public class ParkingManager {
     }
 
     private ParkingLot getPreferredLot() {
-        for(int i=0;i<lots.size();i++){
-            if(!lots.get(i).isFull()){
+        ParkingLot closestLot = lots.get(0);
+        int max= closestLot.cars.size();
+        boolean flag=true;
+        for(int i=1;i<lots.size();i++){
+            if(flag && lots.get(i).cars.size()!=max){
+                flag =false;
+            }
+        }
+        if(flag && !closestLot.isFull()){
+            return closestLot;
+        }
+        for(int i=1;i<lots.size();i++){
+            if(lots.get(i).cars.size()<max){
                 return lots.get(i);
             }
         }

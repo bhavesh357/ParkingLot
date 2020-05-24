@@ -180,4 +180,19 @@ public class ParkingLotTest {
         Car car1 = parking.unPark(car);
         Assert.assertEquals(time,car.getParkedTime());
     }
+
+    @Test
+    public void givenCars_WhenNotFull_ShouldParkCarsEvenly() {
+        ParkingManager parkingManager = new ParkingManager(3);
+        parkingManager.setCapacity(3);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parkingManager.addObserver(owner);
+        Car car = new Car();
+        parkingManager.park(car);
+        parkingManager.park(new Car());
+        parkingManager.park(new Car());
+        parkingManager.park(new Car());
+        parkingManager.park(new Car());
+        parkingManager.park(new Car());
+    }
 }
