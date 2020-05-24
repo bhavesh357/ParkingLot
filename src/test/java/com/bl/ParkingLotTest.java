@@ -22,16 +22,15 @@ public class ParkingLotTest {
     @Test
     public void givenObject_WhenParked_ShouldReturnToken() {
         ParkingLot parkingLot = new ParkingLot(1);
-        int token = parkingLot.park(new Car());
-        Assert.assertEquals(1,token);
+        parkingLot.park(new Car());
     }
 
     @Test
     public void givenCar_WhenUnparked_ShouldReturnCar() {
         ParkingLot parkingLot = new ParkingLot(1);
         Car car = new Car();
-        int token = parkingLot.park(car);
-        Assert.assertEquals(car,parkingLot.unpark(token));
+        parkingLot.park(car);
+        Assert.assertEquals(car,parkingLot.unPark(car));
     }
 
     @Test
@@ -56,13 +55,14 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void givenLimitCars_WhenNotFull_ShoulReturnFalse() {
+    public void givenLimitCars_WhenNotFull_ShouldReturnFalse() {
         ParkingLot parkingLot = new ParkingLot(3);
-        int token1 = parkingLot.park(new Car());
+        Car car = new Car();
+        parkingLot.park(car);
         parkingLot.park(new Car());
         parkingLot.park(new Car());
         parkingLot.isFull();
-        parkingLot.unpark(token1);
+        parkingLot.unPark(car);
         Assert.assertTrue(parkingLot.isSignUp());
     }
 }

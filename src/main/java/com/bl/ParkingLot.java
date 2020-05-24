@@ -1,18 +1,19 @@
 package com.bl;
 
+import com.bl.exception.ParkingLotException;
 import com.bl.model.AiportSecurity;
 import com.bl.model.Car;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /*******************************************************************
  * author: Bhavesh Kadam
  */
 public class ParkingLot {
     private final int capacity;
-    private Car[] cars;
-    private int stored;
+    private List cars;
     private boolean fullSign;
 
     /**
@@ -20,9 +21,8 @@ public class ParkingLot {
      * @param capacity
      */
     public ParkingLot(int capacity) {
-        this.cars = new Car[capacity];
+        this.cars = new ArrayList<Car>();
         this.capacity = capacity;
-        this.stored=0;
         fullSign = false;
     }
 
@@ -31,35 +31,39 @@ public class ParkingLot {
      * @param car
      * @return token
      */
-    public int park(Car car) {
-        for(int i=0;i<this.capacity;i++){
-            if(cars[i]==null){
-                cars[i]=car;
-                stored++;
-                return i+1;
-            }
+    public void park(Car car) {
+        if(cars.contains(car)){
+            throw new ParkingLotException(ParkingLotException.ErrorType.CAR_ALREADYPARKED);
         }
-        return 0;
+        if(isFull()){
+            throw new ParkingLotException(ParkingLotException.ErrorType.LOT_FULL);
+        }
+        cars.add(car);
+        isFull();
     }
 
     /**
      * method to unpark car
-     * @param token
+     * @param car
      * @return car
      */
-    public Car unpark(int token) {
-        Car car = cars[token - 1];
-        cars[token-1]=null;
+    public Car unPark(Car car) {
+        if(!cars.contains(car)){
+            throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
+        }
+        cars.remove(car);
+        isFull();
         return car;
     }
 
     /**
      * to check is parking lot is full
      */
-    public void isFull() {
-        if (capacity==stored){
+    public boolean isFull() {
+        if (capacity==cars.size()){
             this.fullSign = true;
         }
+        return fullSign;
     }
 
     /**
