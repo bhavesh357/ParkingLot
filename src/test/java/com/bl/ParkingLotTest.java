@@ -98,4 +98,27 @@ public class ParkingLotTest {
         parkingLot.unPark(car);
         Assert.assertFalse(owner.isCapacityFull());
     }
+
+    @Test
+    public void givenCar_WhenSpace_ShouldParkCar() {
+        ParkingManager parking = new ParkingManager(1);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parking.addObserver(owner);
+        Car car = new Car();
+        parking.park(car);
+    }
+
+    @Test
+    public void givenCar_WhenFull_ShouldReturnException() {
+        ParkingManager parking = new ParkingManager(1);
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parking.addObserver(owner);
+        Car car = new Car();
+        parking.park(car);
+        try {
+            parking.park(new Car());
+        } catch (ParkingLotException e){
+            Assert.assertEquals(ParkingLotException.ErrorType.ALL_LOTS_FULL,e.errorType);
+        }
+    }
 }

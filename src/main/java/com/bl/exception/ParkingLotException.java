@@ -12,6 +12,6 @@ public class ParkingLotException extends RuntimeException {
     }
 
     public enum ErrorType {
-        CAR_ALREADY_PARKED,LOT_FULL, CAR_NOT_PARKED
+        CAR_ALREADY_PARKED,LOT_FULL, ALL_LOTS_FULL, CAR_NOT_PARKED
     }
 }
