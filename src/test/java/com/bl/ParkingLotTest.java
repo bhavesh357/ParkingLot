@@ -52,8 +52,7 @@ public class ParkingLotTest {
 
     @Test
     public void givenLimitCars_WhenFull_ShouldReturnTrue() {
-        ParkingManager parkingManager = new ParkingManager(1);
-        parkingManager.setCapacity(3);
+        ParkingManager parkingManager = new ParkingManager(1,3);
         ParkingLotOwner owner = new ParkingLotOwner();
         parkingManager.addObserver(owner);
         parkingManager.park(new Vehicle());
@@ -80,8 +79,7 @@ public class ParkingLotTest {
 
     @Test
     public void givenLimitCars_WhenRedirectSecurity_ShouldReturnTrue() {
-        ParkingManager parkingManager = new ParkingManager(1);
-        parkingManager.setCapacity(3);
+        ParkingManager parkingManager = new ParkingManager(1,3);
         AirportSecurity airportSecurity = new AirportSecurity();
         parkingManager.addObserver(airportSecurity);
         parkingManager.park(new Vehicle());
@@ -92,8 +90,7 @@ public class ParkingLotTest {
 
     @Test
     public void givenLimitCars_WhenNotFull_ShouldReturnFalse() {
-        ParkingManager parkingManager = new ParkingManager(1);
-        parkingManager.setCapacity(3);
+        ParkingManager parkingManager = new ParkingManager(1,3);
         ParkingLotOwner owner = new ParkingLotOwner();
         parkingManager.addObserver(owner);
         Vehicle vehicle = new Vehicle();
@@ -197,8 +194,7 @@ public class ParkingLotTest {
 
     @Test
     public void givenCars_WhenNotFull_ShouldParkCarsEvenly() {
-        ParkingManager parkingManager = new ParkingManager(3);
-        parkingManager.setCapacity(3);
+        ParkingManager parkingManager = new ParkingManager(3,3);
         ParkingLotOwner owner = new ParkingLotOwner();
         parkingManager.addObserver(owner);
         Vehicle vehicle = new Vehicle();
@@ -214,8 +210,7 @@ public class ParkingLotTest {
 
     @Test
     public void givenCars_WheHandicappedDriver_ShouldParkCarsEvenly() {
-        ParkingManager parkingManager = new ParkingManager(3);
-        parkingManager.setCapacity(3);
+        ParkingManager parkingManager = new ParkingManager(3,3);
         ParkingLotOwner owner = new ParkingLotOwner();
         parkingManager.addObserver(owner);
         Vehicle vehicle = new Vehicle();
@@ -232,8 +227,7 @@ public class ParkingLotTest {
 
     @Test
     public void givenTruck_WhenParkedForSomeTime_ShouldReturnTime() throws InterruptedException {
-        ParkingManager parkingManager = new ParkingManager(3);
-        parkingManager.setCapacity(3);
+        ParkingManager parkingManager = new ParkingManager(3,3);
         parkingManager.park(new Vehicle());
         parkingManager.park(new Vehicle());
         Vehicle vehicle3 = new Vehicle();

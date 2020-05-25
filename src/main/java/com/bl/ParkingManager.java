@@ -15,9 +15,13 @@ public class ParkingManager {
     public ParkingAttendant attendant;
 
     public ParkingManager(int noOfLots) {
+        this(noOfLots,1);
+    }
+
+    public ParkingManager(int noOfLots, int lotCapacity) {
         lots = new ArrayList<>();
-        for(int i=0; i<noOfLots;i++ ){
-            lots.add(new ParkingLot(1));
+        for(int i=0; i<noOfLots;i++){
+            lots.add(new ParkingLot(lotCapacity));
         }
         attendant = new ParkingAttendant();
     }
@@ -103,12 +107,6 @@ public class ParkingManager {
                     o.capacityIsAvailable();
                 }
             }
-        }
-    }
-
-    public void setCapacity(int capacity) {
-        for(ParkingLot p: lots){
-            p.setCapacity(capacity);
         }
     }
 

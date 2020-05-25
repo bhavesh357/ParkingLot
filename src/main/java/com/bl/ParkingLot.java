@@ -20,6 +20,7 @@ public class ParkingLot {
 
     /**
      * Costructor for Parking Lot
+     *
      * @param capacity //total limit of lot
      */
     public ParkingLot(int capacity) {
@@ -31,23 +32,25 @@ public class ParkingLot {
 
     /**
      * method to add observers to Parking Lot
+     *
      * @param observer // who is observing
      */
     public void addObserver(ParkingLotObeserver observer) {
-        if(!observers.contains(observer)){
+        if (!observers.contains(observer)) {
             this.observers.add(observer);
         }
     }
 
     /**
      * Method to park car
+     *
      * @param vehicle which car is to be stored
      */
     public void park(Vehicle vehicle) {
-        if(vehicles.contains(vehicle)){
+        if (vehicles.contains(vehicle)) {
             throw new ParkingLotException(ParkingLotException.ErrorType.CAR_ALREADY_PARKED);
         }
-        if(isFull()){
+        if (isFull()) {
             throw new ParkingLotException(ParkingLotException.ErrorType.LOT_FULL);
         }
         Date time = Calendar.getInstance().getTime();
@@ -58,11 +61,12 @@ public class ParkingLot {
 
     /**
      * method to unpark car
+     *
      * @param vehicle //which car to unpark
      * @return car //unparke car
      */
     public Vehicle unPark(Vehicle vehicle) {
-        if(!vehicles.contains(vehicle)){
+        if (!vehicles.contains(vehicle)) {
             throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
         }
         vehicles.remove(vehicle);
@@ -74,15 +78,11 @@ public class ParkingLot {
      * to check is parking lot is full
      */
     public boolean isFull() {
-        if (capacity== vehicles.size()){
+        if (capacity == vehicles.size()) {
             this.fullSign = true;
-        }else{
+        } else {
             this.fullSign = false;
         }
         return fullSign;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity=capacity;
     }
 }
