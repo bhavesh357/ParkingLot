@@ -192,7 +192,7 @@ public class ParkingLotTest {
         parking.park(car);
         Date time = Calendar.getInstance().getTime();
         Car car1 = parking.unPark(car);
-        Assert.assertEquals(time,car.getParkedTime());
+        Assert.assertEquals(time.toString(),car1.getParkedTime().toString());
     }
 
     @Test
