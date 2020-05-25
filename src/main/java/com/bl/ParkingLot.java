@@ -1,7 +1,7 @@
 package com.bl;
 
 import com.bl.exception.ParkingLotException;
-import com.bl.model.Car;
+import com.bl.model.Vehicle;
 import com.bl.model.ParkingLotObeserver;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ParkingLot {
     private int capacity; //total limit of lot
-    public final List<Car> cars; // list of stored cars
+    public final List<Vehicle> vehicles; // list of stored cars
     private boolean fullSign; //sign that says lot full
     public final List<ParkingLotObeserver> observers; //owner or security who need to know if lot is full
 
@@ -23,7 +23,7 @@ public class ParkingLot {
      * @param capacity //total limit of lot
      */
     public ParkingLot(int capacity) {
-        this.cars = new ArrayList<>();
+        this.vehicles = new ArrayList<>();
         this.observers = new ArrayList<>();
         this.capacity = capacity;
         fullSign = false;
@@ -41,40 +41,40 @@ public class ParkingLot {
 
     /**
      * Method to park car
-     * @param car which car is to be stored
+     * @param vehicle which car is to be stored
      */
-    public void park(Car car) {
-        if(cars.contains(car)){
+    public void park(Vehicle vehicle) {
+        if(vehicles.contains(vehicle)){
             throw new ParkingLotException(ParkingLotException.ErrorType.CAR_ALREADY_PARKED);
         }
         if(isFull()){
             throw new ParkingLotException(ParkingLotException.ErrorType.LOT_FULL);
         }
         Date time = Calendar.getInstance().getTime();
-        car.setParkedTime(time);
-        cars.add(car);
+        vehicle.setParkedTime(time);
+        vehicles.add(vehicle);
         isFull();
     }
 
     /**
      * method to unpark car
-     * @param car //which car to unpark
+     * @param vehicle //which car to unpark
      * @return car //unparke car
      */
-    public Car unPark(Car car) {
-        if(!cars.contains(car)){
+    public Vehicle unPark(Vehicle vehicle) {
+        if(!vehicles.contains(vehicle)){
             throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
         }
-        cars.remove(car);
+        vehicles.remove(vehicle);
         isFull();
-        return car;
+        return vehicle;
     }
 
     /**
      * to check is parking lot is full
      */
     public boolean isFull() {
-        if (capacity==cars.size()){
+        if (capacity== vehicles.size()){
             this.fullSign = true;
         }else{
             this.fullSign = false;

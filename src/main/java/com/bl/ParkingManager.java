@@ -2,7 +2,7 @@ package com.bl;
 
 
 import com.bl.exception.ParkingLotException;
-import com.bl.model.Car;
+import com.bl.model.Vehicle;
 import com.bl.model.ParkingAttendant;
 import com.bl.model.ParkingLotObeserver;
 
@@ -28,23 +28,40 @@ public class ParkingManager {
         }
     }
 
-    public void park(Car car) {
-        ParkingLot preferredLot;
-        if(car.isHandicapped){
-            preferredLot=lots.get(0);
-        }else{
-            preferredLot = getPreferredLot();
+    public void park(Vehicle vehicle) {
+        ParkingLot preferredLot=null;
+        if(vehicle.type== Vehicle.Type.Truck){
+            preferredLot= mostEmptyLot();
         }
-        attendant.park(preferredLot,car);
+        if(preferredLot==null){
+            if(vehicle.isHandicapped){
+                preferredLot=lots.get(0);
+            }else{
+                preferredLot = getPreferredLot();
+            }
+        }
+        attendant.park(preferredLot, vehicle);
         isFull();
+    }
+
+    private ParkingLot mostEmptyLot() {
+        ParkingLot mostEmpty = lots.get(0);
+        int least=mostEmpty.vehicles.size();
+        for(ParkingLot p: lots){
+            if(p.vehicles.size()<least){
+                least=p.vehicles.size();
+                mostEmpty=p;
+            }
+        }
+        return mostEmpty;
     }
 
     private ParkingLot getPreferredLot() {
         ParkingLot closestLot = lots.get(0);
-        int max= closestLot.cars.size();
+        int max= closestLot.vehicles.size();
         boolean flag=true;
         for(int i=1;i<lots.size();i++){
-            if (lots.get(i).cars.size() != max) {
+            if (lots.get(i).vehicles.size() != max) {
                 flag = false;
                 break;
             }
@@ -53,19 +70,19 @@ public class ParkingManager {
             return closestLot;
         }
         for(int i=1;i<lots.size();i++){
-            if(lots.get(i).cars.size()<max){
+            if(lots.get(i).vehicles.size()<max){
                 return lots.get(i);
             }
         }
         throw new ParkingLotException(ParkingLotException.ErrorType.ALL_LOTS_FULL);
     }
 
-    public Car unPark(Car car) {
+    public Vehicle unPark(Vehicle vehicle) {
         for(ParkingLot p: lots){
-            if(p.cars.contains(car)){
-                Car car1 = p.unPark(car);
+            if(p.vehicles.contains(vehicle)){
+                Vehicle vehicle1 = p.unPark(vehicle);
                 isFull();
-                return car1;
+                return vehicle1;
             }
         }
         throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
@@ -95,9 +112,9 @@ public class ParkingManager {
         }
     }
 
-    public ParkingLot getParkedLot(Car car) {
+    public ParkingLot getParkedLot(Vehicle vehicle) {
         for(ParkingLot p: lots){
-            if(p.cars.contains(car)){
+            if(p.vehicles.contains(vehicle)){
                 return p;
             }
         }
