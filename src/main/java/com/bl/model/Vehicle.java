@@ -6,6 +6,7 @@ public class Vehicle {
     public final Type type;
     private Date time;
     public boolean isHandicapped=false;
+    private ParkingSpot spot;
 
     public Vehicle() {
         this.type=Type.Car;
@@ -25,6 +26,14 @@ public class Vehicle {
 
     public void setHandicappedDriver() {
         this.isHandicapped = true;
+    }
+
+    public void setSpot(ParkingSpot spot) {
+        this.spot = spot;
+    }
+
+    public ParkingSpot getSpot() {
+        return spot;
     }
 
     public enum Type {Car, Truck}

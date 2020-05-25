@@ -1,20 +1,18 @@
 package com.bl;
 
 import com.bl.exception.ParkingLotException;
+import com.bl.model.ParkingSpot;
 import com.bl.model.Vehicle;
 import com.bl.model.ParkingLotObeserver;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /*******************************************************************
  * author: Bhavesh Kadam
  */
 public class ParkingLot {
     private int capacity; //total limit of lot
-    public final List<Vehicle> vehicles; // list of stored cars
+    public final HashMap<ParkingSpot,Vehicle> vehicles; // list of stored cars
     private boolean fullSign; //sign that says lot full
     public final List<ParkingLotObeserver> observers; //owner or security who need to know if lot is full
 
@@ -24,10 +22,17 @@ public class ParkingLot {
      * @param capacity //total limit of lot
      */
     public ParkingLot(int capacity) {
-        this.vehicles = new ArrayList<>();
         this.observers = new ArrayList<>();
         this.capacity = capacity;
+        this.vehicles = new HashMap<>();
+        loadLot();
         fullSign = false;
+    }
+
+    private void loadLot() {
+        for(int i=1;i<=capacity;i++){
+            vehicles.put(new ParkingSpot(this,i),null);
+        }
     }
 
     /**
@@ -47,7 +52,7 @@ public class ParkingLot {
      * @param vehicle which car is to be stored
      */
     public void park(Vehicle vehicle) {
-        if (vehicles.contains(vehicle)) {
+        if (vehicles.values().contains(vehicle)) {
             throw new ParkingLotException(ParkingLotException.ErrorType.CAR_ALREADY_PARKED);
         }
         if (isFull()) {
@@ -55,8 +60,19 @@ public class ParkingLot {
         }
         Date time = Calendar.getInstance().getTime();
         vehicle.setParkedTime(time);
-        vehicles.add(vehicle);
+        ParkingSpot spot = getClosestSpot();
+        vehicles.put(spot,vehicle);
+        vehicle.setSpot(spot);
         isFull();
+    }
+
+    private ParkingSpot getClosestSpot() {
+        for(ParkingSpot s: vehicles.keySet()){
+            if(vehicles.get(s)==null){
+                return s;
+            }
+        }
+        return null;
     }
 
     /**
@@ -66,23 +82,34 @@ public class ParkingLot {
      * @return car //unparke car
      */
     public Vehicle unPark(Vehicle vehicle) {
-        if (!vehicles.contains(vehicle)) {
+        if (!vehicles.values().contains(vehicle)) {
             throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
         }
-        vehicles.remove(vehicle);
+        vehicles.put(vehicle.getSpot(),null);
+        vehicle.setSpot(null);
         isFull();
         return vehicle;
     }
 
     /**
-     * to check is parking lot is full
+     * to check if parking lot is full
      */
     public boolean isFull() {
-        if (capacity == vehicles.size()) {
-            this.fullSign = true;
-        } else {
-            this.fullSign = false;
+        for(ParkingSpot p: vehicles.keySet()){
+            if(vehicles.get(p)==null){
+                return false;
+            }
         }
-        return fullSign;
+        return true;
+    }
+
+    public int getCurrentsize() {
+        int count=0;
+        for(ParkingSpot p: vehicles.keySet()){
+            if(vehicles.get(p)!=null){
+                count++;
+            }
+        }
+        return count;
     }
 }

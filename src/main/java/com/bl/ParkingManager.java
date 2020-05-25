@@ -50,10 +50,10 @@ public class ParkingManager {
 
     private ParkingLot mostEmptyLot() {
         ParkingLot mostEmpty = lots.get(0);
-        int least=mostEmpty.vehicles.size();
+        int least=mostEmpty.getCurrentsize();
         for(ParkingLot p: lots){
-            if(p.vehicles.size()<least){
-                least=p.vehicles.size();
+            if(p.getCurrentsize()<least){
+                least=p.getCurrentsize();
                 mostEmpty=p;
             }
         }
@@ -62,10 +62,10 @@ public class ParkingManager {
 
     private ParkingLot getPreferredLot() {
         ParkingLot closestLot = lots.get(0);
-        int max= closestLot.vehicles.size();
+        int max= closestLot.getCurrentsize();
         boolean flag=true;
         for(int i=1;i<lots.size();i++){
-            if (lots.get(i).vehicles.size() != max) {
+            if (lots.get(i).getCurrentsize() != max) {
                 flag = false;
                 break;
             }
@@ -74,7 +74,7 @@ public class ParkingManager {
             return closestLot;
         }
         for(int i=1;i<lots.size();i++){
-            if(lots.get(i).vehicles.size()<max){
+            if(lots.get(i).getCurrentsize()<max){
                 return lots.get(i);
             }
         }
@@ -83,7 +83,7 @@ public class ParkingManager {
 
     public Vehicle unPark(Vehicle vehicle) {
         for(ParkingLot p: lots){
-            if(p.vehicles.contains(vehicle)){
+            if(p.vehicles.values().contains(vehicle)){
                 Vehicle vehicle1 = p.unPark(vehicle);
                 isFull();
                 return vehicle1;
@@ -112,7 +112,7 @@ public class ParkingManager {
 
     public ParkingLot getParkedLot(Vehicle vehicle) {
         for(ParkingLot p: lots){
-            if(p.vehicles.contains(vehicle)){
+            if(p.vehicles.values().contains(vehicle)){
                 return p;
             }
         }
