@@ -32,4 +32,8 @@ public class PoliceStation {
     public ArrayList<Vehicle> getCar(String rows, boolean isHandicapped) {
         return manager.getCarByRowAndHandicapped(rows);
     }
+
+    public ArrayList<Vehicle> getCar() {
+        return manager.getAllCars();
+    }
 }

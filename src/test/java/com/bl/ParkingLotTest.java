@@ -400,4 +400,20 @@ public class ParkingLotTest {
         }
         Assert.assertTrue(testFlag);
     }
+
+    @Test
+    public void givenCars_WhenAllCars_ReturnAllCars() {
+        ParkingManager parkingManager = new ParkingManager(3, 4);
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        PoliceStation policeStation = new PoliceStation();
+        policeStation.addManager(parkingManager);
+        ArrayList<Vehicle> cars = policeStation.getCar();
+    }
 }

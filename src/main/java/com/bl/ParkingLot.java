@@ -175,5 +175,15 @@ public class ParkingLot {
         }
         return cars;
     }
+
+    public ArrayList<Vehicle> getAllCars() {
+        ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
+        for(ParkingSpot ps: vehicles.keySet()){
+            if(vehicles.get(ps)!=null){
+                cars.add(vehicles.get(ps));
+            }
+        }
+        return cars;
+    }
 }
 

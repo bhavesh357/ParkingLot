@@ -174,4 +174,12 @@ public class ParkingManager {
         }
         return cars;
     }
+
+    public ArrayList<Vehicle> getAllCars() {
+        ArrayList<Vehicle> cars = new ArrayList<>();
+        for (ParkingLot p: lots){
+            cars.addAll(p.getAllCars());
+        }
+        return cars;
+    }
 }
