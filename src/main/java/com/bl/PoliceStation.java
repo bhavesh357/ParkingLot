@@ -24,4 +24,8 @@ public class PoliceStation {
     public ArrayList<Vehicle> getCar(Vehicle.MAKE maker) {
         return manager.getCarByMaker(maker);
     }
+
+    public ArrayList<Vehicle> getCar(int time) {
+        return manager.getCarByTime(time);
+    }
 }

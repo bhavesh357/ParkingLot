@@ -148,5 +148,17 @@ public class ParkingLot {
         }
         return cars;
     }
+
+    public Collection<Vehicle> getCarLocationByTime(Date cutoffTime) {
+        ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
+        for(ParkingSpot ps: vehicles.keySet()){
+            if(vehicles.get(ps)!=null){
+                if ( vehicles.get(ps).getParkedTime().compareTo(cutoffTime)>0 ){
+                    cars.add(vehicles.get(ps));
+                }
+            }
+        }
+        return cars;
+    }
 }
 

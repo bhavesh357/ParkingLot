@@ -311,4 +311,28 @@ public class ParkingLotTest {
         carLocation.add(blueCar1);
         Assert.assertEquals(carLocation,locations);
     }
+
+    @Test
+    public void givenCars_WhenTime_ShouldReturnCar() throws InterruptedException {
+        ParkingManager parkingManager = new ParkingManager(3,3);
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        Thread.sleep(3000);
+        Vehicle vehicle1 = new Vehicle();
+        Vehicle vehicle2 = new Vehicle();
+        Vehicle vehicle3 = new Vehicle();
+        parkingManager.park(vehicle1);
+        parkingManager.park(vehicle2);
+        parkingManager.park(vehicle3);
+        PoliceStation policeStation = new PoliceStation();
+        policeStation.addManager(parkingManager);
+        ArrayList<Vehicle> cars = policeStation.getCar(3000);
+        ArrayList<Vehicle> parkedCars = new ArrayList<Vehicle>();
+        parkedCars.add(vehicle3);
+        parkedCars.add(vehicle1);
+        parkedCars.add(vehicle2);
+        Assert.assertEquals(parkedCars,cars);
+    }
 }

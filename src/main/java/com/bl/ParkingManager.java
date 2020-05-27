@@ -8,6 +8,8 @@ import com.bl.model.ParkingAttendant;
 import com.bl.model.ParkingLotObeserver;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ParkingManager {
@@ -143,4 +145,15 @@ public class ParkingManager {
         }
         return locations;
     }
+
+    public ArrayList<Vehicle> getCarByTime(int time) {
+        Date cutoffTime = Calendar.getInstance().getTime();
+        cutoffTime.setTime(cutoffTime.getTime()-time);
+        ArrayList<Vehicle> locations = new ArrayList<>();
+        for(ParkingLot p: lots){
+            locations.addAll(p.getCarLocationByTime(cutoffTime));
+        }
+        return locations;
+    }
+
 }
