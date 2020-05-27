@@ -28,4 +28,8 @@ public class PoliceStation {
     public ArrayList<Vehicle> getCar(int time) {
         return manager.getCarByTime(time);
     }
+
+    public ArrayList<Vehicle> getCar(String rows, boolean isHandicapped) {
+        return manager.getCarByRowAndHandicapped(rows);
+    }
 }

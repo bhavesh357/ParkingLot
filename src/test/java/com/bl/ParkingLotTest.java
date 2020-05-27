@@ -335,4 +335,69 @@ public class ParkingLotTest {
         parkedCars.add(vehicle2);
         Assert.assertEquals(parkedCars,cars);
     }
+
+    @Test
+    public void givenHandicappedCars_WhenBandDrow_ShouldReturnCars() {
+        ParkingManager parkingManager = new ParkingManager(3, 10);
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        Vehicle handicappedCar1 = new Vehicle();
+        handicappedCar1.setHandicappedDriver();
+        parkingManager.park(handicappedCar1);
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        Vehicle handicappedCar2 = new Vehicle();
+        handicappedCar2.setHandicappedDriver();
+        parkingManager.park(handicappedCar2);
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        Vehicle handcappedCar3 = new Vehicle();
+        handcappedCar3.setHandicappedDriver();
+        parkingManager.park(handcappedCar3);
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        Vehicle handicappedCar4 = new Vehicle();
+        handicappedCar4.setHandicappedDriver();
+        parkingManager.park(handicappedCar4);
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        Vehicle handicappedCar5 = new Vehicle();
+        handicappedCar5.setHandicappedDriver();
+        parkingManager.park(handicappedCar5);
+        parkingManager.park(new Vehicle());
+        Vehicle handicappedCar6 = new Vehicle();
+        handicappedCar6.setHandicappedDriver();
+        parkingManager.park(handicappedCar6);
+        parkingManager.park(new Vehicle());
+        Vehicle handicappedCar7 = new Vehicle();
+        handicappedCar7.setHandicappedDriver();
+        parkingManager.park(handicappedCar7);
+        parkingManager.park(new Vehicle());
+        Vehicle handicappedCar8 = new Vehicle();
+        handicappedCar8.setHandicappedDriver();
+        parkingManager.park(handicappedCar8);
+        Vehicle handicappedCar9 = new Vehicle();
+        handicappedCar9.setHandicappedDriver();
+        parkingManager.park(handicappedCar9);
+        parkingManager.park(new Vehicle());
+        Vehicle handicappedCar10 = new Vehicle();
+        handicappedCar10.setHandicappedDriver();
+        parkingManager.park(handicappedCar10);
+        PoliceStation policeStation = new PoliceStation();
+        policeStation.addManager(parkingManager);
+        ArrayList<Vehicle> cars = policeStation.getCar("BD",true);
+        boolean testFlag=true;
+        for(Vehicle v: cars){
+            if(!( (v.getSpot().getRow()=='B' || v.getSpot().getRow()=='D') && v.isHandicapped)){
+                testFlag=false;
+            }
+        }
+        Assert.assertTrue(testFlag);
+    }
 }

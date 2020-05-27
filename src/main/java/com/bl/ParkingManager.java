@@ -41,14 +41,23 @@ public class ParkingManager {
             preferredLot= mostEmptyLot();
         }
         if(preferredLot==null){
-            if(vehicle.isHandicapped){
-                preferredLot=lots.get(0);
+            if(vehicle.isHandicapped ){
+                preferredLot=getClosestLot();
             }else{
                 preferredLot = getPreferredLot();
             }
         }
         attendant.park(preferredLot, vehicle);
         isFull();
+    }
+
+    private ParkingLot getClosestLot() {
+        for(int i=0;i<lots.size();i++){
+            if(!lots.get(i).isFull()){
+                return lots.get(i);
+            }
+        }
+        throw new ParkingLotException(ParkingLotException.ErrorType.ALL_LOTS_FULL);
     }
 
     private ParkingLot mostEmptyLot() {
@@ -156,4 +165,13 @@ public class ParkingManager {
         return locations;
     }
 
+    public ArrayList<Vehicle> getCarByRowAndHandicapped(String rows) {
+        ArrayList<Vehicle> cars = new ArrayList<>();
+        for (char c: rows.toCharArray()){
+            for (ParkingLot p: lots){
+                cars.addAll(p.getCarByRowAndhandicapped(c));
+            }
+        }
+        return cars;
+    }
 }

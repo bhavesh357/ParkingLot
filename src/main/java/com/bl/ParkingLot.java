@@ -30,8 +30,11 @@ public class ParkingLot {
     }
 
     private void loadLot() {
+        String rows="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for(int i=1;i<=capacity;i++){
-            vehicles.put(new ParkingSpot(this,i),null);
+
+            String row=""+rows.charAt(i/3);
+            vehicles.put(new ParkingSpot(this,row,i%3),null);
         }
     }
 
@@ -154,6 +157,18 @@ public class ParkingLot {
         for(ParkingSpot ps: vehicles.keySet()){
             if(vehicles.get(ps)!=null){
                 if ( vehicles.get(ps).getParkedTime().compareTo(cutoffTime)>0 ){
+                    cars.add(vehicles.get(ps));
+                }
+            }
+        }
+        return cars;
+    }
+
+    public ArrayList<Vehicle> getCarByRowAndhandicapped(char row) {
+        ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
+        for(ParkingSpot ps: vehicles.keySet()){
+            if(vehicles.get(ps)!=null){
+                if ( ps.getRow()==row  && vehicles.get(ps).isHandicapped ){
                     cars.add(vehicles.get(ps));
                 }
             }
