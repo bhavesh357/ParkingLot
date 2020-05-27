@@ -16,4 +16,8 @@ public class PoliceStation {
     public ArrayList<ParkingSpot> getCar(Vehicle.COLOR color) {
         return manager.getCarLocationByColor(color);
     }
+
+    public ArrayList<Vehicle> getCar(Vehicle.COLOR color, Vehicle.MAKE maker) {
+        return manager.getCarByMakeAndColor(color,maker);
+    }
 }

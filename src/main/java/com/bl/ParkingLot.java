@@ -124,4 +124,17 @@ public class ParkingLot {
         }
         return locations;
     }
+
+    public ArrayList<Vehicle> getCarLocationByMakeAndColor(Vehicle.COLOR color, Vehicle.MAKE maker) {
+        ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
+        for(ParkingSpot ps: vehicles.keySet()){
+            if(vehicles.get(ps)!=null){
+                if (vehicles.get(ps).getColor()==color && vehicles.get(ps).getMaker()==maker){
+                    cars.add(vehicles.get(ps));
+                }
+            }
+        }
+        return cars;
+    }
 }
+

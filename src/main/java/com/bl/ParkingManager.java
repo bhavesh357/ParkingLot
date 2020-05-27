@@ -127,4 +127,12 @@ public class ParkingManager {
         }
         return locations;
     }
+
+    public ArrayList<Vehicle> getCarByMakeAndColor(Vehicle.COLOR color, Vehicle.MAKE maker) {
+        ArrayList<Vehicle> locations = new ArrayList<>();
+        for(ParkingLot p: lots){
+            locations.addAll(p.getCarLocationByMakeAndColor(color,maker));
+        }
+        return locations;
+    }
 }

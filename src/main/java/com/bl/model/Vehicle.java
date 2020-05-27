@@ -8,6 +8,7 @@ public class Vehicle {
     public boolean isHandicapped=false;
     private ParkingSpot spot;
     private COLOR color;
+    private MAKE maker;
 
     public Vehicle() {
         this.type=Type.Car;
@@ -45,7 +46,17 @@ public class Vehicle {
         return color;
     }
 
+    public void setMaker(MAKE maker) {
+        this.maker = maker;
+    }
+
+    public MAKE getMaker() {
+        return maker;
+    }
+
     public enum Type {Car, Truck}
 
-    public enum COLOR {WHITE}
+    public enum COLOR {BLUE, WHITE}
+
+    public enum MAKE {TOYOTA}
 }

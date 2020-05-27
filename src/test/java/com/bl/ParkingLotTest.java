@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.bl.model.Vehicle.MAKE.TOYOTA;
+
 public class ParkingLotTest {
 
     @Test
@@ -262,6 +264,29 @@ public class ParkingLotTest {
         ArrayList<ParkingSpot> carLocation = new ArrayList<>();
         carLocation.add(whiteCar2.getSpot());
         carLocation.add(whiteCar1.getSpot());
+        Assert.assertEquals(carLocation,locations);
+    }
+
+    @Test
+    public void whenGivenCars_WhenToyotaBlue_ShouldReturnListOfCarLocation() {
+        ParkingManager parkingManager = new ParkingManager(3,3);
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        Vehicle blueCar1=new Vehicle();
+        blueCar1.setColor(Vehicle.COLOR.BLUE);
+        blueCar1.setMaker(TOYOTA);
+        parkingManager.park(blueCar1);
+        parkingManager.park(new Vehicle());
+        Vehicle blueCar2=new Vehicle();
+        blueCar2.setColor(Vehicle.COLOR.BLUE);
+        blueCar2.setMaker(TOYOTA);
+        parkingManager.park(blueCar2);
+        PoliceStation policeStation = new PoliceStation();
+        policeStation.addManager(parkingManager);
+        ArrayList<Vehicle> locations = policeStation.getCar(Vehicle.COLOR.BLUE, TOYOTA);
+        ArrayList<Vehicle> carLocation = new ArrayList<>();
+        carLocation.add(blueCar2);
+        carLocation.add(blueCar1);
         Assert.assertEquals(carLocation,locations);
     }
 }
