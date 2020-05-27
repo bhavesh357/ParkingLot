@@ -135,4 +135,12 @@ public class ParkingManager {
         }
         return locations;
     }
+
+    public ArrayList<Vehicle> getCarByMaker(Vehicle.MAKE maker) {
+        ArrayList<Vehicle> locations = new ArrayList<>();
+        for(ParkingLot p: lots){
+            locations.addAll(p.getCarLocationByMaker(maker));
+        }
+        return locations;
+    }
 }

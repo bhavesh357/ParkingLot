@@ -136,5 +136,17 @@ public class ParkingLot {
         }
         return cars;
     }
+
+    public Collection<Vehicle> getCarLocationByMaker(Vehicle.MAKE maker) {
+        ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
+        for(ParkingSpot ps: vehicles.keySet()){
+            if(vehicles.get(ps)!=null){
+                if ( vehicles.get(ps).getMaker()==maker){
+                    cars.add(vehicles.get(ps));
+                }
+            }
+        }
+        return cars;
+    }
 }
 

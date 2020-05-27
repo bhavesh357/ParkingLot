@@ -20,4 +20,8 @@ public class PoliceStation {
     public ArrayList<Vehicle> getCar(Vehicle.COLOR color, Vehicle.MAKE maker) {
         return manager.getCarByMakeAndColor(color,maker);
     }
+
+    public ArrayList<Vehicle> getCar(Vehicle.MAKE maker) {
+        return manager.getCarByMaker(maker);
+    }
 }

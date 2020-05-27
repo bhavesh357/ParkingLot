@@ -58,5 +58,5 @@ public class Vehicle {
 
     public enum COLOR {BLUE, WHITE}
 
-    public enum MAKE {TOYOTA}
+    public enum MAKE {BMW, TOYOTA}
 }
