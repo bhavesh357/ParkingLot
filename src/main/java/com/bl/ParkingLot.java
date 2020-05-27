@@ -112,4 +112,16 @@ public class ParkingLot {
         }
         return count;
     }
+
+    public ArrayList<ParkingSpot> getCarLocationByColor(Vehicle.COLOR color) {
+        ArrayList<ParkingSpot> locations= new ArrayList<ParkingSpot>();
+        for(ParkingSpot ps: vehicles.keySet()){
+            if(vehicles.get(ps)!=null){
+                if (vehicles.get(ps).getColor()==color){
+                    locations.add(ps);
+                }
+            }
+        }
+        return locations;
+    }
 }

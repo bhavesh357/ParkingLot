@@ -7,6 +7,7 @@ public class Vehicle {
     private Date time;
     public boolean isHandicapped=false;
     private ParkingSpot spot;
+    private COLOR color;
 
     public Vehicle() {
         this.type=Type.Car;
@@ -36,5 +37,15 @@ public class Vehicle {
         return spot;
     }
 
+    public void setColor(COLOR color) {
+        this.color = color;
+    }
+
+    public COLOR getColor() {
+        return color;
+    }
+
     public enum Type {Car, Truck}
+
+    public enum COLOR {WHITE}
 }

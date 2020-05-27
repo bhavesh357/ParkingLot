@@ -2,6 +2,7 @@ package com.bl;
 
 
 import com.bl.exception.ParkingLotException;
+import com.bl.model.ParkingSpot;
 import com.bl.model.Vehicle;
 import com.bl.model.ParkingAttendant;
 import com.bl.model.ParkingLotObeserver;
@@ -117,5 +118,13 @@ public class ParkingManager {
             }
         }
         throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
+    }
+
+    public ArrayList<ParkingSpot> getCarLocationByColor(Vehicle.COLOR color) {
+        ArrayList<ParkingSpot> locations = new ArrayList<>();
+        for(ParkingLot p: lots){
+            locations.addAll(p.getCarLocationByColor(color));
+        }
+        return locations;
     }
 }

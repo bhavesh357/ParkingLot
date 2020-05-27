@@ -2,11 +2,13 @@ package com.bl;
 
 import com.bl.exception.ParkingLotException;
 import com.bl.model.AirportSecurity;
+import com.bl.model.ParkingSpot;
 import com.bl.model.Vehicle;
 import com.bl.model.ParkingLotOwner;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -240,5 +242,26 @@ public class ParkingLotTest {
         Vehicle truck = new Vehicle(Vehicle.Type.Truck);
         parkingManager.park(truck);
         Assert.assertEquals(parkingManager.getParkedLot(vehicle3),parkingManager.getParkedLot(truck));
+    }
+
+    @Test
+    public void whenGivenCars_WhenWhite_ShouldReturnListOfCarLocation() {
+        ParkingManager parkingManager = new ParkingManager(3,3);
+        parkingManager.park(new Vehicle());
+        parkingManager.park(new Vehicle());
+        Vehicle whiteCar1=new Vehicle();
+        whiteCar1.setColor(Vehicle.COLOR.WHITE);
+        parkingManager.park(whiteCar1);
+        parkingManager.park(new Vehicle());
+        Vehicle whiteCar2=new Vehicle();
+        whiteCar2.setColor(Vehicle.COLOR.WHITE);
+        parkingManager.park(whiteCar2);
+        PoliceStation policeStation = new PoliceStation();
+        policeStation.addManager(parkingManager);
+        ArrayList<ParkingSpot> locations = policeStation.getCar(Vehicle.COLOR.WHITE);
+        ArrayList<ParkingSpot> carLocation = new ArrayList<>();
+        carLocation.add(whiteCar2.getSpot());
+        carLocation.add(whiteCar1.getSpot());
+        Assert.assertEquals(carLocation,locations);
     }
 }
