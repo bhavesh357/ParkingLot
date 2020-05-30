@@ -12,6 +12,10 @@ public class ParkingSpot {
         this.number=number;
     }
 
+    /**
+     * method to get row
+     * @return row
+     */
     public char getRow() {
         return row.charAt(0);
     }

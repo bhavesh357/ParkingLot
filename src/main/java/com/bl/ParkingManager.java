@@ -17,10 +17,19 @@ public class ParkingManager {
     public List<ParkingLot> lots;
     public ParkingAttendant attendant;
 
+    /**
+     * constructor for parking manager on number of lots with 1 capacity
+     * @param noOfLots
+     */
     public ParkingManager(int noOfLots) {
         this(noOfLots,1);
     }
 
+    /**
+     * constructor for parking manager on number of lots with specified capacity
+     * @param noOfLots
+     * @param lotCapacity
+     */
     public ParkingManager(int noOfLots, int lotCapacity) {
         lots = new ArrayList<>();
         for(int i=0; i<noOfLots;i++){
@@ -29,12 +38,20 @@ public class ParkingManager {
         attendant = new ParkingAttendant();
     }
 
+    /**
+     * method to add observer of parking lots
+     * @param observer
+     */
     public void addObserver(ParkingLotObeserver observer) {
         for (ParkingLot p: lots){
             p.addObserver(observer);
         }
     }
 
+    /**
+     * method to park the vehicle
+     * @param vehicle
+     */
     public void park(Vehicle vehicle) {
         ParkingLot preferredLot=null;
         if(vehicle.type== Vehicle.Type.Truck){
@@ -51,6 +68,10 @@ public class ParkingManager {
         isFull();
     }
 
+    /**
+     * method to get closest parking lot
+     * @return parkingLot
+     */
     private ParkingLot getClosestLot() {
         for(int i=0;i<lots.size();i++){
             if(!lots.get(i).isFull()){
@@ -60,6 +81,10 @@ public class ParkingManager {
         throw new ParkingLotException(ParkingLotException.ErrorType.ALL_LOTS_FULL);
     }
 
+    /**
+     * method to get most empty lot
+     * @return parkingLot
+     */
     private ParkingLot mostEmptyLot() {
         ParkingLot mostEmpty = lots.get(0);
         int least=mostEmpty.getCurrentsize();
@@ -72,6 +97,10 @@ public class ParkingManager {
         return mostEmpty;
     }
 
+    /**
+     * method to get best suitable lot
+     * @return ParkingLot
+     */
     private ParkingLot getPreferredLot() {
         ParkingLot closestLot = lots.get(0);
         int max= closestLot.getCurrentsize();
@@ -93,6 +122,11 @@ public class ParkingManager {
         throw new ParkingLotException(ParkingLotException.ErrorType.ALL_LOTS_FULL);
     }
 
+    /**
+     * method to unpark the vehicle
+     * @param vehicle
+     * @return vehicle
+     */
     public Vehicle unPark(Vehicle vehicle) {
         for(ParkingLot p: lots){
             if(p.vehicles.values().contains(vehicle)){
@@ -104,6 +138,9 @@ public class ParkingManager {
         throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
     }
 
+    /**
+     * method to inform all obesrevers if lots full
+     */
     public void isFull() {
         boolean allLotsFull = true;
         for(ParkingLot p: lots){
@@ -122,6 +159,11 @@ public class ParkingManager {
         }
     }
 
+    /**
+     * method to know which lot vehicle is parked at
+     * @param vehicle
+     * @return ParkingLot
+     */
     public ParkingLot getParkedLot(Vehicle vehicle) {
         for(ParkingLot p: lots){
             if(p.vehicles.values().contains(vehicle)){
@@ -131,6 +173,11 @@ public class ParkingManager {
         throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
     }
 
+    /**
+     * method to get ParkingSpot by vehicle color
+     * @param color
+     * @return list of vehicle
+     */
     public ArrayList<ParkingSpot> getCarLocationByColor(Vehicle.COLOR color) {
         ArrayList<ParkingSpot> locations = new ArrayList<>();
         for(ParkingLot p: lots){
@@ -138,6 +185,12 @@ public class ParkingManager {
         }
         return locations;
     }
+    /**
+     * method to get Vehicle by vehicle color and maker
+     * @param color
+     * @param maker
+     * @return list of vehicle
+     */
 
     public ArrayList<Vehicle> getCarByMakeAndColor(Vehicle.COLOR color, Vehicle.MAKE maker) {
         ArrayList<Vehicle> locations = new ArrayList<>();
@@ -146,35 +199,55 @@ public class ParkingManager {
         }
         return locations;
     }
+    /**
+     * method to get ParkingSpot by vehicle maker
+     * @param maker
+     * @return list of vehicle
+     */
 
     public ArrayList<Vehicle> getCarByMaker(Vehicle.MAKE maker) {
-        ArrayList<Vehicle> locations = new ArrayList<>();
+        ArrayList<Vehicle> cars = new ArrayList<>();
         for(ParkingLot p: lots){
-            locations.addAll(p.getCarLocationByMaker(maker));
+            cars.addAll(p.getCarLocationByMaker(maker));
         }
-        return locations;
+        return cars;
     }
+    /**
+     * method to get Vehicle by parked time
+     * @param time
+     * @return list of vehicle
+     */
 
     public ArrayList<Vehicle> getCarByTime(int time) {
         Date cutoffTime = Calendar.getInstance().getTime();
         cutoffTime.setTime(cutoffTime.getTime()-time);
-        ArrayList<Vehicle> locations = new ArrayList<>();
+        ArrayList<Vehicle> cars = new ArrayList<>();
         for(ParkingLot p: lots){
-            locations.addAll(p.getCarLocationByTime(cutoffTime));
+            cars.addAll(p.getCarLocationByTime(cutoffTime));
         }
-        return locations;
+        return cars;
     }
 
+
+    /**
+     * method to get Vehicle by parked rows
+     * @param rows
+     * @return list of vehicle
+     */
     public ArrayList<Vehicle> getCarByRowAndHandicapped(String rows) {
         ArrayList<Vehicle> cars = new ArrayList<>();
         for (char c: rows.toCharArray()){
             for (ParkingLot p: lots){
-                cars.addAll(p.getCarByRowAndhandicapped(c));
+                cars.addAll(p.getCarByRowAndHandicapped(c));
             }
         }
         return cars;
     }
 
+    /**
+     * method to get all parked vehicles
+     * @return list of vehicle
+     */
     public ArrayList<Vehicle> getAllCars() {
         ArrayList<Vehicle> cars = new ArrayList<>();
         for (ParkingLot p: lots){

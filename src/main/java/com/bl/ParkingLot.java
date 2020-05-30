@@ -29,6 +29,9 @@ public class ParkingLot {
         fullSign = false;
     }
 
+    /**
+     * method to load lot with null parking spots
+     */
     private void loadLot() {
         String rows="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for(int i=1;i<=capacity;i++){
@@ -69,6 +72,10 @@ public class ParkingLot {
         isFull();
     }
 
+    /**
+     * method to get the nearest empty parking lot
+     * @return parking spot
+     */
     private ParkingSpot getClosestSpot() {
         for(ParkingSpot s: vehicles.keySet()){
             if(vehicles.get(s)==null){
@@ -106,6 +113,10 @@ public class ParkingLot {
         return true;
     }
 
+    /**
+     * method to get no of cars parked
+     * @return
+     */
     public int getCurrentsize() {
         int count=0;
         for(ParkingSpot p: vehicles.keySet()){
@@ -116,6 +127,11 @@ public class ParkingLot {
         return count;
     }
 
+    /**
+     * method to get car location bby color
+     * @param color
+     * @return parking spot
+     */
     public ArrayList<ParkingSpot> getCarLocationByColor(Vehicle.COLOR color) {
         ArrayList<ParkingSpot> locations= new ArrayList<ParkingSpot>();
         for(ParkingSpot ps: vehicles.keySet()){
@@ -127,6 +143,13 @@ public class ParkingLot {
         }
         return locations;
     }
+
+    /**
+     * method to get car by maker and color
+     * @param color
+     * @param maker
+     * @return car
+     */
 
     public ArrayList<Vehicle> getCarLocationByMakeAndColor(Vehicle.COLOR color, Vehicle.MAKE maker) {
         ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
@@ -140,6 +163,11 @@ public class ParkingLot {
         return cars;
     }
 
+    /**
+     * method to get list of cars by maker
+     * @param maker
+     * @return list of cars
+     */
     public Collection<Vehicle> getCarLocationByMaker(Vehicle.MAKE maker) {
         ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
         for(ParkingSpot ps: vehicles.keySet()){
@@ -152,6 +180,11 @@ public class ParkingLot {
         return cars;
     }
 
+    /**
+     * method to get car by park time
+     * @param cutoffTime
+     * @return list of cars
+     */
     public Collection<Vehicle> getCarLocationByTime(Date cutoffTime) {
         ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
         for(ParkingSpot ps: vehicles.keySet()){
@@ -164,7 +197,12 @@ public class ParkingLot {
         return cars;
     }
 
-    public ArrayList<Vehicle> getCarByRowAndhandicapped(char row) {
+    /**
+     * method to get car by row and handicapped driver
+     * @param row
+     * @return list of car
+     */
+    public ArrayList<Vehicle> getCarByRowAndHandicapped(char row) {
         ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
         for(ParkingSpot ps: vehicles.keySet()){
             if(vehicles.get(ps)!=null){
@@ -176,6 +214,10 @@ public class ParkingLot {
         return cars;
     }
 
+    /**
+     * method to get all parked car
+     * @return list of cars
+     */
     public ArrayList<Vehicle> getAllCars() {
         ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
         for(ParkingSpot ps: vehicles.keySet()){

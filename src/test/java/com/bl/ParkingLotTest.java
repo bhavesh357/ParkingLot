@@ -415,5 +415,5 @@ public class ParkingLotTest {
         PoliceStation policeStation = new PoliceStation();
         policeStation.addManager(parkingManager);
         ArrayList<Vehicle> cars = policeStation.getCar();
-    }
+     }
 }
