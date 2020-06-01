@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class ParkingLot {
     private int capacity; //total limit of lot
-    public final HashMap<ParkingSpot,Vehicle> vehicles; // list of stored cars
+    public final HashMap<ParkingSpot,Vehicle> parkingLot; // list of stored cars
     private boolean fullSign; //sign that says lot full
     public final List<ParkingLotObeserver> observers; //owner or security who need to know if lot is full
 
@@ -24,7 +24,7 @@ public class ParkingLot {
     public ParkingLot(int capacity) {
         this.observers = new ArrayList<>();
         this.capacity = capacity;
-        this.vehicles = new HashMap<>();
+        this.parkingLot = new HashMap<>();
         loadLot();
         fullSign = false;
     }
@@ -37,7 +37,7 @@ public class ParkingLot {
         for(int i=1;i<=capacity;i++){
 
             String row=""+rows.charAt(i/3);
-            vehicles.put(new ParkingSpot(this,row,i%3),null);
+            parkingLot.put(new ParkingSpot(this,row,i%3),null);
         }
     }
 
@@ -58,7 +58,7 @@ public class ParkingLot {
      * @param vehicle which car is to be stored
      */
     public void park(Vehicle vehicle) {
-        if (vehicles.values().contains(vehicle)) {
+        if (parkingLot.values().contains(vehicle)) {
             throw new ParkingLotException(ParkingLotException.ErrorType.CAR_ALREADY_PARKED);
         }
         if (isFull()) {
@@ -67,7 +67,7 @@ public class ParkingLot {
         Date time = Calendar.getInstance().getTime();
         vehicle.setParkedTime(time);
         ParkingSpot spot = getClosestSpot();
-        vehicles.put(spot,vehicle);
+        parkingLot.put(spot,vehicle);
         vehicle.setSpot(spot);
         isFull();
     }
@@ -77,8 +77,8 @@ public class ParkingLot {
      * @return parking spot
      */
     private ParkingSpot getClosestSpot() {
-        for(ParkingSpot s: vehicles.keySet()){
-            if(vehicles.get(s)==null){
+        for(ParkingSpot s: parkingLot.keySet()){
+            if(parkingLot.get(s)==null){
                 return s;
             }
         }
@@ -92,10 +92,10 @@ public class ParkingLot {
      * @return car //unparke car
      */
     public Vehicle unPark(Vehicle vehicle) {
-        if (!vehicles.values().contains(vehicle)) {
+        if (!parkingLot.values().contains(vehicle)) {
             throw new ParkingLotException(ParkingLotException.ErrorType.CAR_NOT_PARKED);
         }
-        vehicles.put(vehicle.getSpot(),null);
+        parkingLot.put(vehicle.getSpot(),null);
         vehicle.setSpot(null);
         isFull();
         return vehicle;
@@ -105,8 +105,8 @@ public class ParkingLot {
      * to check if parking lot is full
      */
     public boolean isFull() {
-        for(ParkingSpot p: vehicles.keySet()){
-            if(vehicles.get(p)==null){
+        for(ParkingSpot p: parkingLot.keySet()){
+            if(parkingLot.get(p)==null){
                 return false;
             }
         }
@@ -119,8 +119,8 @@ public class ParkingLot {
      */
     public int getCurrentsize() {
         int count=0;
-        for(ParkingSpot p: vehicles.keySet()){
-            if(vehicles.get(p)!=null){
+        for(ParkingSpot p: parkingLot.keySet()){
+            if(parkingLot.get(p)!=null){
                 count++;
             }
         }
@@ -134,9 +134,9 @@ public class ParkingLot {
      */
     public ArrayList<ParkingSpot> getCarLocationByColor(Vehicle.COLOR color) {
         ArrayList<ParkingSpot> locations= new ArrayList<ParkingSpot>();
-        for(ParkingSpot ps: vehicles.keySet()){
-            if(vehicles.get(ps)!=null){
-                if (vehicles.get(ps).getColor()==color){
+        for(ParkingSpot ps: parkingLot.keySet()){
+            if(parkingLot.get(ps)!=null){
+                if (parkingLot.get(ps).getColor()==color){
                     locations.add(ps);
                 }
             }
@@ -153,10 +153,10 @@ public class ParkingLot {
 
     public ArrayList<Vehicle> getCarLocationByMakeAndColor(Vehicle.COLOR color, Vehicle.MAKE maker) {
         ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
-        for(ParkingSpot ps: vehicles.keySet()){
-            if(vehicles.get(ps)!=null){
-                if (vehicles.get(ps).getColor()==color && vehicles.get(ps).getMaker()==maker){
-                    cars.add(vehicles.get(ps));
+        for(ParkingSpot ps: parkingLot.keySet()){
+            if(parkingLot.get(ps)!=null){
+                if (parkingLot.get(ps).getColor()==color && parkingLot.get(ps).getMaker()==maker){
+                    cars.add(parkingLot.get(ps));
                 }
             }
         }
@@ -170,10 +170,10 @@ public class ParkingLot {
      */
     public Collection<Vehicle> getCarLocationByMaker(Vehicle.MAKE maker) {
         ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
-        for(ParkingSpot ps: vehicles.keySet()){
-            if(vehicles.get(ps)!=null){
-                if ( vehicles.get(ps).getMaker()==maker){
-                    cars.add(vehicles.get(ps));
+        for(ParkingSpot ps: parkingLot.keySet()){
+            if(parkingLot.get(ps)!=null){
+                if ( parkingLot.get(ps).getMaker()==maker){
+                    cars.add(parkingLot.get(ps));
                 }
             }
         }
@@ -187,10 +187,10 @@ public class ParkingLot {
      */
     public Collection<Vehicle> getCarLocationByTime(Date cutoffTime) {
         ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
-        for(ParkingSpot ps: vehicles.keySet()){
-            if(vehicles.get(ps)!=null){
-                if ( vehicles.get(ps).getParkedTime().compareTo(cutoffTime)>0 ){
-                    cars.add(vehicles.get(ps));
+        for(ParkingSpot ps: parkingLot.keySet()){
+            if(parkingLot.get(ps)!=null){
+                if ( parkingLot.get(ps).getParkedTime().compareTo(cutoffTime)>0 ){
+                    cars.add(parkingLot.get(ps));
                 }
             }
         }
@@ -204,10 +204,10 @@ public class ParkingLot {
      */
     public ArrayList<Vehicle> getCarByRowAndHandicapped(char row) {
         ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
-        for(ParkingSpot ps: vehicles.keySet()){
-            if(vehicles.get(ps)!=null){
-                if ( ps.getRow()==row  && vehicles.get(ps).isHandicapped ){
-                    cars.add(vehicles.get(ps));
+        for(ParkingSpot ps: parkingLot.keySet()){
+            if(parkingLot.get(ps)!=null){
+                if ( ps.getRow()==row  && parkingLot.get(ps).isHandicapped ){
+                    cars.add(parkingLot.get(ps));
                 }
             }
         }
@@ -220,9 +220,9 @@ public class ParkingLot {
      */
     public ArrayList<Vehicle> getAllCars() {
         ArrayList<Vehicle> cars= new ArrayList<Vehicle>();
-        for(ParkingSpot ps: vehicles.keySet()){
-            if(vehicles.get(ps)!=null){
-                cars.add(vehicles.get(ps));
+        for(ParkingSpot ps: parkingLot.keySet()){
+            if(parkingLot.get(ps)!=null){
+                cars.add(parkingLot.get(ps));
             }
         }
         return cars;

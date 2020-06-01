@@ -129,7 +129,7 @@ public class ParkingManager {
      */
     public Vehicle unPark(Vehicle vehicle) {
         for(ParkingLot p: lots){
-            if(p.vehicles.values().contains(vehicle)){
+            if(p.parkingLot.values().contains(vehicle)){
                 Vehicle vehicle1 = p.unPark(vehicle);
                 isFull();
                 return vehicle1;
@@ -166,7 +166,7 @@ public class ParkingManager {
      */
     public ParkingLot getParkedLot(Vehicle vehicle) {
         for(ParkingLot p: lots){
-            if(p.vehicles.values().contains(vehicle)){
+            if(p.parkingLot.values().contains(vehicle)){
                 return p;
             }
         }
